@@ -47,3 +47,5 @@ ndk-build
 
 8. Now run your Android NDKHello Project.
 	
+Reference:
+http://www.ntu.edu.sg/home/ehchua/programming/android/Android_NDK.html
