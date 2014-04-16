@@ -1,0 +1,49 @@
+Hi,
+
+This is my First NDKHello Demo project for newbies
+
+
+I followed this process to make this project.
+
+1. Create NativeLib.java file
+2. open terminal and head to project directory
+	cd bin/classes and
+	generate header files of NativeLib.java using this command
+	javah -jni com.iqbal.ndkhello.ndk.NativeLib
+3. copy NativeLib.h file in jni folder (Create if not exist in project root)
+or you can use this command javah -jni -o ../../jni/NativeLib.h com.iqbal.ndkhello.ndk.NativeLib
+4. create NativeLib.c file and copy method signature in NativeLib.c
+and don't foreget to include NativeLib.h
+	
+	Method Signature eg:JNIEXPORT jstring JNICALL Java_com_iqbal_ndkhello_ndk_NativeLib_getHello
+(JNIEnv *, jclass);
+	this is the declared method in header files and change to method defination
+	#include"NativeLib.h"
+
+JNIEXPORT jstring JNICALL Java_com_iqbal_ndkhello_ndk_NativeLib_getHello
+  (JNIEnv *env, jclass clz){
+	return (*env)->NewStringUTF(env,"Hello World");
+}
+
+Note:NewStringUTF sometimes this function shows error means red line to suppress this error please update your CDT.
+
+5.Now create Android.mk file and write these lines
+LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := hello
+LOCAL_SRC_FILES := NativeLib.c
+
+include $(BUILD_SHARED_LIBRARY)
+
+6.Create Application.mk to suppress the Warnning or error android-19 is larger than minsdkversion 8....
+and write this lines
+APP_PLATFORM:=android-8
+android-8 is my minsdkversion so be sure about this change according to minsdkversion in AndroidManifest.xml
+
+
+7.open terminal head to project root and fire this command 
+ndk-build
+
+8. Now run your Android NDKHello Project.
+	
